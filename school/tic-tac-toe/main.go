@@ -93,66 +93,67 @@ func InitGUI() {
 
 	// Create our start button for the whole game.
 	startButton := widget.NewButton("Click to start", func() {
-		// Make sure that all buttons are reset to remove icons before we start.
-		button1.SetIcon(nil)
-		button2.SetIcon(nil)
-		button3.SetIcon(nil)
-		button4.SetIcon(nil)
-		button5.SetIcon(nil)
-		button6.SetIcon(nil)
-		button7.SetIcon(nil)
-		button8.SetIcon(nil)
-		button9.SetIcon(nil)
+		go func() {
+			// Make sure that all buttons are reset to remove icons before we start.
+			button1.SetIcon(nil)
+			button2.SetIcon(nil)
+			button3.SetIcon(nil)
+			button4.SetIcon(nil)
+			button5.SetIcon(nil)
+			button6.SetIcon(nil)
+			button7.SetIcon(nil)
+			button8.SetIcon(nil)
+			button9.SetIcon(nil)
 
-		// Tell the rest of the program that we are in a game.
-		inGame = true
+			// Tell the rest of the program that we are in a game.
+			inGame = true
 
-		var message dialog.Dialog
+			var message dialog.Dialog
 
-		// The main loop for the game.
-		for index = 0; index < 9; index++ {
+			// The main loop for the game.
+			for index = 0; index < 9; index++ {
 
-			// Sleep the loop until we get a number in the channel.
-			clicked := <-channel
+				// Sleep the loop until we get a number in the channel.
+				clicked := <-channel
 
-			// Handles all our button presses during the play time.
-			switch clicked {
-			case 0:
-				PressHandler(button1, 0)
-			case 1:
-				PressHandler(button2, 1)
-			case 2:
-				PressHandler(button3, 2)
-			case 3:
-				PressHandler(button4, 3)
-			case 4:
-				PressHandler(button5, 4)
-			case 5:
-				PressHandler(button6, 5)
-			case 6:
-				PressHandler(button7, 6)
-			case 7:
-				PressHandler(button8, 7)
-			case 8:
-				PressHandler(button9, 8)
-			}
+				// Handles all our button presses during the play time.
+				switch clicked {
+				case 0:
+					PressHandler(button1, 0)
+				case 1:
+					PressHandler(button2, 1)
+				case 2:
+					PressHandler(button3, 2)
+				case 3:
+					PressHandler(button4, 3)
+				case 4:
+					PressHandler(button5, 4)
+				case 5:
+					PressHandler(button6, 5)
+				case 6:
+					PressHandler(button7, 6)
+				case 7:
+					PressHandler(button8, 7)
+				case 8:
+					PressHandler(button9, 8)
+				}
 
-			// Check if index is bigger or equal to 4, because it's the earliest time we can win. If index is 8, we have a tie and nobody won.
-			if index >= 4 {
-				if CheckWon(player1) {
-					// Show a dialogue informing the first player that he won!
-					message = dialog.NewInformation("Player 1 has won!", "Congratulations to player 1 for winning.", window)
-					break
-				} else if CheckWon(player2) {
-					// Show a dialogue informing the second player that he won!
-					message = dialog.NewInformation("Player 2 has won!", "Congratulations to player 2 for winning.", window)
-					break
-				} else if index == 8 {
-					// It is a tie if the game hasn't ended before index reaches 8 and no one wins on the ninth placement.
-					message = dialog.NewInformation("It is a tie!", "Nobody has won. Please try better next time.", window)
+				// Check if index is bigger or equal to 4, because it's the earliest time we can win. If index is 8, we have a tie and nobody won.
+				if index >= 4 {
+					if CheckWon(player1) {
+						// Show a dialogue informing the first player that he won!
+						message = dialog.NewInformation("Player 1 has won!", "Congratulations to player 1 for winning.", window)
+						break
+					} else if CheckWon(player2) {
+						// Show a dialogue informing the second player that he won!
+						message = dialog.NewInformation("Player 2 has won!", "Congratulations to player 2 for winning.", window)
+						break
+					} else if index == 8 {
+						// It is a tie if the game hasn't ended before index reaches 8 and no one wins on the ninth placement.
+						message = dialog.NewInformation("It is a tie!", "Nobody has won. Please try better next time.", window)
+					}
 				}
 			}
-		}
 
 		// Clean up after our game finishes and do it on an other goroutine to speed it up.
 		go func() {
@@ -167,6 +168,7 @@ func InitGUI() {
 
 		// Show our winning or tie message to the user.
 		message.Show()
+		}()
 
 	})
 
