@@ -20,6 +20,14 @@ func TestTableLargest(t *testing.T) {
 	}
 }
 
+func BenchmarkLargest(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Largest(first)
+	}
+}
+
 func TestTableSmallest(t *testing.T) {
 	var tests = []struct {
 		input    []float64
@@ -38,6 +46,14 @@ func TestTableSmallest(t *testing.T) {
 	}
 }
 
+func BenchmarkSmallest(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Smallest(first)
+	}
+}
+
 func TestTableRange(t *testing.T) {
 	var tests = []struct {
 		input    []float64
@@ -53,5 +69,13 @@ func TestTableRange(t *testing.T) {
 		if output := Range(test.input); output != test.expected {
 			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
 		}
+	}
+}
+
+func BenchmarkRange(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Range(first)
 	}
 }
