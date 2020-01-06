@@ -23,7 +23,19 @@ func TestTableVariance(t *testing.T) {
 	}
 }
 
-func TestTableStddeviation(t *testing.T) {
+func BenchmarkVariance(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Variance(first, true)
+	}
+
+	for i := 0; i < b.N; i++ {
+		Variance(first, false)
+	}
+}
+
+func TestTableStdDeviation(t *testing.T) {
 	var tests = []struct {
 		input    []float64
 		boolean  bool
@@ -38,5 +50,17 @@ func TestTableStddeviation(t *testing.T) {
 		if output := StdDeviation(test.input, test.boolean); output != test.expected {
 			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
 		}
+	}
+}
+
+func BenchmarkStdDeviation(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		StdDeviation(first, true)
+	}
+
+	for i := 0; i < b.N; i++ {
+		StdDeviation(first, false)
 	}
 }

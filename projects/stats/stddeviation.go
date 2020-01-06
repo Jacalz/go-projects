@@ -3,7 +3,7 @@ package stats
 import "math"
 
 // Variance returns the varaiance (average of the varations from the average) of an array of numbers as a float64 number. The second input is a bool and that determens if the data is from a sample. Simples are divided with n - 1 instead of n.
-func Variance(numbers []float64, sample bool) (output float64) {
+func Variance(numbers []float64, sample bool) float64 {
 	// Calculate the mean of the array.
 	mean := Mean(numbers)
 
@@ -15,17 +15,15 @@ func Variance(numbers []float64, sample bool) (output float64) {
 
 	// Loop through and add ((each number in the array minus the average) squared) to the sum.
 	for _, num := range numbers {
-		sum += math.Pow(num-mean, 2)
+		sum += (num - mean) * (num - mean)
 	}
 
-	// If we are working with a sample of data, we should divide by length minus one instead.
+	// If we are working with a sample of data, we should divide by length minus one instead of just length.
 	if sample {
-		output = sum / (length - 1)
-	} else {
-		output = sum / length
+		return sum / (length - 1)
 	}
 
-	return output
+	return sum / length
 }
 
 // StdDeviation returns the standard deviation of an array of numbers as float64.
