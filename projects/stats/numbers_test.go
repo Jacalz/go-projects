@@ -25,6 +25,14 @@ func TestTableMean(t *testing.T) {
 	}
 }
 
+func BenchmarkMean(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Mean(first)
+	}
+}
+
 func TestTableMedian(t *testing.T) {
 	var tests = []struct {
 		input    []float64
@@ -39,5 +47,13 @@ func TestTableMedian(t *testing.T) {
 		if output := Median(test.input); output != test.expected {
 			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
 		}
+	}
+}
+
+func BenchmarkMedian(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Median(second)
 	}
 }
