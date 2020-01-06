@@ -41,25 +41,28 @@ func largestPosition(numbers []int) (index int) {
 // Mode returns the number that exists the most times in the array of float64 numbers. The first value in the array will be outputed if every number exists once. Currently only work when there is's only one value that appears in most places.
 func Mode(numbers []float64) float64 {
 
-	// Create two arrays. One for data with float64 values and one for count using int values.
-	data, count := []float64{}, []int{}
+	// Create two arrays. One for data with float64 values and one for count using int values. Optimize them by allocating at the start since the length always will be same as input array.
+	data := make([]float64, len(numbers))
+	count := make([]int, len(numbers))
 
 	// Create the bool variable for exists and int variable for index.
 	var exists bool
 	var index int
 
 	// Loop though the input array of numbers.
-	for i := 0; i < len(numbers); i++ {
+	for i, num := range numbers {
 		// Use the finNumIndex function to find index and bool if numbers of i exists in the data slice.
-		exists, index = findNumIndex(numbers[i], data)
+		if i != 0 {
+			exists, index = findNumIndex(num, data)
+		}
 
 		// Check if index is zero or if it doesn't exist.
 		if i == 0 || !exists {
 			// Append the number to the data array.
-			data = append(data, numbers[i])
+			data[i] = num
 
 			// Add a one to count on the same index position.
-			count = append(count, 1)
+			count[i] = 1
 		} else {
 			// It exists, thus we make the count bigger.
 			count[index]++

@@ -23,3 +23,11 @@ func TestTableMode(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkMode(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		Mode(first)
+	}
+}
