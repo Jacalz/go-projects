@@ -2,12 +2,12 @@ package stats
 
 // Mean takes an array of float64 and returns the average as a float64 number.
 func Mean(numbers []float64) float64 {
-	// Assign a variable for the sum of all values.
+	// Assign a variable to hold the sum.
 	var sum float64
 
-	// Loop through each value and ad it to the sum.
-	for i := 0; i < len(numbers); i++ {
-		sum += numbers[i]
+	// Loop through each value and add it to the sum.
+	for _, num := range numbers {
+		sum += num
 	}
 
 	// Return the sum divided by the float64 value of the amount of numbers.

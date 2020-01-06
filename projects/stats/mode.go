@@ -1,22 +1,21 @@
 package stats
 
-// Finds if the number exists in the array and returns a bool along with what index that number exists in.
+// Finds if the number exists in the array and returns a bool along with what index that number exists in (index will be -1 if it doesn't exist.).
 func findNumIndex(value float64, data []float64) (exists bool, index int) {
 
 	// Loop through the whole array.
-	for i := 0; i < len(data); i++ {
+	for i, num := range data {
 		// On each iterattion, we check if the seeken value is the same as the value for the given index.
-		if value == data[i] {
+		if value == num {
 			// The values are equal and we exit with a true and the index.
-			exists, index = true, i
-			break
-		} else {
-			// It wasn't true this time, thus we continue with the next index.
-			continue
+			return true, i
 		}
+		// It wasn't true this time, thus we continue with the next index.
+		continue
 	}
 
-	return exists, index
+	// Return false and return a negative index.
+	return false, -1
 }
 
 // LargestIndex returns the index for the largest number in an array of ints.
