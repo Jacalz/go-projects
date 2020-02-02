@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 )
@@ -14,14 +13,12 @@ func exists(path string) bool {
 	if err == nil {
 		return true
 	}
-	if os.IsNotExist(err) {
-		return false
-	}
+
 	return false
 }
 
 // The fetch command runs the git clone command and prints the output to terminal.
-func fetch(command string, finished chan bool) {
+func fetch(command string, finished chan struct{}) {
 	fetch := exec.Command("sh", "-c", fmt.Sprintf("git clone https://dev.getsol.us/source/%s.git", command))
 	output, err := fetch.CombinedOutput()
 	if err != nil {
@@ -30,7 +27,7 @@ func fetch(command string, finished chan bool) {
 		fmt.Printf("%s", output)
 	}
 
-	finished <- true
+	close(finished)
 }
 
 func main() {
@@ -39,21 +36,23 @@ func main() {
 	repo := flag.Args()
 
 	// Don't proceed if any any of the repos are already fetched.
-	for i := range repo {
-		if exists(repo[i]) {
-			log.Fatalln("Don't fetch repos that are already fetched!")
+	for _, name := range repo {
+		if exists(name) {
+			fmt.Println("Please check that you are not fetching repos that are already fetched.")
+			return
 		}
 	}
 
 	// Handle empty arguments and tell user how to use program.
 	if repo[0] == "" {
-		log.Fatalln("Usage: solfetch [repository name] [optional] [optional]")
+		fmt.Println("Usage: solfetch [repository name] [any amount of optional repos]...")
+		return
 	}
 
 	// Spin up all of our communication channels.
-	var channel []chan bool
+	var channel []chan struct{}
 	for range repo {
-		channel = append(channel, make(chan bool))
+		channel = append(channel, make(chan struct{}))
 	}
 
 	// Start up cocurrent tasks for fetching all repos at once.
