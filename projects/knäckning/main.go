@@ -57,7 +57,7 @@ type CrossSection struct {
 
 // CheckValidBuckling checks if the can use the bucklign theory.
 func (c *Column) CheckValidBuckling() bool {
-	// Calulate the lambda number for our c.
+	// Calculate the lambda number for our c.
 	if c.Lambda == 0 {
 		c.Lambda = c.BucklingLength / math.Sqrt(c.Imin/c.Area)
 	}

@@ -15,7 +15,7 @@ func TestTableLargest(t *testing.T) {
 
 	for _, test := range tests {
 		if output := Largest(test.input); output != test.expected {
-			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
+			t.Errorf("Test Failed: %v inputed, %v expected, received %v", test.input, test.expected, output)
 		}
 	}
 }
@@ -41,7 +41,7 @@ func TestTableSmallest(t *testing.T) {
 
 	for _, test := range tests {
 		if output := Smallest(test.input); output != test.expected {
-			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
+			t.Errorf("Test Failed: %v inputed, %v expected, received %v", test.input, test.expected, output)
 		}
 	}
 }
@@ -67,7 +67,7 @@ func TestTableRange(t *testing.T) {
 
 	for _, test := range tests {
 		if output := Range(test.input); output != test.expected {
-			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
+			t.Errorf("Test Failed: %v inputed, %v expected, received %v", test.input, test.expected, output)
 		}
 	}
 }

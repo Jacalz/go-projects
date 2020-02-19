@@ -50,7 +50,7 @@ func totalExtension(WireMass, WireArea, Elasticity, Length, Load float64) float6
 	Q := WireMass * Gravity
 	LoadF := Load * Gravity
 
-	// Förlängning för vajer på grund av vajerns vik respektive belastningens vikt.
+	// Förlängning för vajer på grund av vajerns vik respective belastningens vikt.
 	δQ := (Q * Length) / (2 * WireArea * Elasticity)
 	δF := (LoadF * Length) / (WireArea * Elasticity)
 
@@ -130,7 +130,7 @@ func main() {
 	ThreadYieldStength := threadYieldStength(YieldStrength, ThreadArea, ThreadMass)
 	ThreadTensileStrength := threadTensileStrength(TensileStrength, ThreadArea, ThreadMass)
 
-	// Definiering av variabel för antalet trådar utifrån funktionen.
+	// Definiering av variable för antalet trådar utifrån funktionen.
 	RequiredThreads := requiredThreads(AllowedThreadStrength, Load)
 
 	// Skriv ut belastningsvikten och antalet trådar som krävs

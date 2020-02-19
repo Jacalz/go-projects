@@ -18,7 +18,7 @@ func TestTableVariance(t *testing.T) {
 
 	for _, test := range tests {
 		if output := Variance(test.input, test.boolean); output != test.expected {
-			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
+			t.Errorf("Test Failed: %v inputed, %v expected, received %v", test.input, test.expected, output)
 		}
 	}
 }
@@ -48,7 +48,7 @@ func TestTableStdDeviation(t *testing.T) {
 
 	for _, test := range tests {
 		if output := StdDeviation(test.input, test.boolean); output != test.expected {
-			t.Errorf("Test Failed: %v inputed, %v expected, recieved %v", test.input, test.expected, output)
+			t.Errorf("Test Failed: %v inputed, %v expected, received %v", test.input, test.expected, output)
 		}
 	}
 }

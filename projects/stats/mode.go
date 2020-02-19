@@ -38,7 +38,7 @@ func largestPosition(numbers []int) (index int) {
 	return index
 }
 
-// Mode returns the number that exists the most times in the array of float64 numbers. The first value in the array will be outputed if every number exists once. Currently only work when there is's only one value that appears in most places.
+// Mode returns the number that exists the most times in the array of float64 numbers. The first value in the array will be outputted if every number exists once. Currently only work when there is's only one value that appears in most places.
 func Mode(numbers []float64) float64 {
 
 	// Create two arrays. One for data with float64 values and one for count using int values. Optimize them by allocating at the start since the length always will be same as input array.

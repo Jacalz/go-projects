@@ -2,7 +2,7 @@ package stats
 
 import "math"
 
-// Variance returns the varaiance (average of the varations from the average) of an array of numbers as a float64 number. The second input is a bool and that determens if the data is from a sample. Simples are divided with n - 1 instead of n.
+// Variance returns the varaiance (average of the variations from the average) of an array of numbers as a float64 number. The second input is a bool and that determens if the data is from a sample. Simples are divided with n - 1 instead of n.
 func Variance(numbers []float64, sample bool) float64 {
 	// Calculate the mean of the array.
 	mean := Mean(numbers)

@@ -28,10 +28,10 @@ func main() {
 	InitGUI()
 }
 
-// InitGUI starts up the whole interface for out program.
+// InitGUI starts up the whole interface for our program.
 func InitGUI() {
 	// Initialize our new fyne interface application.
-	app := app.New()
+	app := app.NewWithID("com.github.jacalz.tic-tac-toe")
 
 	// Set the application icon for our program.
 	app.SetIcon(icon)
@@ -175,7 +175,7 @@ func InitGUI() {
 	// Add all the buttons in to a three column grid layout inside a container.
 	container := fyne.NewContainerWithLayout(layout.NewGridLayout(3), layout.NewSpacer(), startButton, layout.NewSpacer(), button1, button2, button3, button4, button5, button6, button7, button8, button9)
 
-	// Set the conatiner as what is being displayed.
+	// Set the container as what is being displayed.
 	window.SetContent(container)
 
 	// Set a sane default for the window size.

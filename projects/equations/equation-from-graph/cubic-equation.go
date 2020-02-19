@@ -88,7 +88,7 @@ func main() {
 	fmt.Print("\nEnter a given point on the graph (x, y): ")
 	fmt.Scanf("(%v, %v)", &Xvalue, &Yvalue)
 
-	// Caluclate gradient and the specific varaibles that define the graph.
+	// Calculate gradient and the specific variables that define the graph.
 	switch NullPoints {
 	case 3, 2:
 		A = gradient(Xvalue, Yvalue, NullPoint1, NullPoint2, NullPoint3)

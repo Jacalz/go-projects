@@ -70,7 +70,7 @@ func main() {
 	fmt.Print("\nEnter a given point on the graph (x, y): ")
 	fmt.Scanf("(%v, %v)", &Xvalue, &Yvalue)
 
-	// Enter each of the outputed values in to respective variables
+	// Enter each of the outputted values in to respective variables
 	A, B, C := quadraticEquation(Xvalue, Yvalue, NullPoint1, NullPoint2)
 
 	// Make sure that it doesn't print a plus sign before a negative number

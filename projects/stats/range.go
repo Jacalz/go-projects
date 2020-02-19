@@ -34,7 +34,7 @@ func Smallest(numbers []float64) float64 {
 	return smallest
 }
 
-// Range retuns the length between the biggest and smallest values from an array of float64 numbers.
+// Range returns the length between the biggest and smallest values from an array of float64 numbers.
 func Range(numbers []float64) float64 {
 	return Largest(numbers) - Smallest(numbers)
 }
