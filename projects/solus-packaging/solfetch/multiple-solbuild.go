@@ -42,22 +42,22 @@ func main() {
 		log.Fatalln("Don't fetch repos that are already fetched!")
 	}
 
-  // Handle empty arguments and tell user how to use program.
-  if repo[0] == "" {
-    log.Fatalln("Usage: solfetch [repository name] [optional] [optional]")
-  }
+	// Handle empty arguments and tell user how to use program.
+	if repo[0] == "" {
+		log.Fatalln("Usage: solfetch [repository name] [optional] [optional]")
+	}
 
-  var one, two, three []byte
+	var one, two, three []byte
 
-  if repo[0] != "" {
+	if repo[0] != "" {
 		one = fetch(fmt.Sprintf("git clone https://dev.getsol.us/source/%s.git", repo[0]))
-  }
-  if repo[1] != "" {
+	}
+	if repo[1] != "" {
 		two = fetch(fmt.Sprintf("git clone https://dev.getsol.us/source/%s.git", repo[1]))
-  }
-  if repo[2] != "" {
+	}
+	if repo[2] != "" {
 		three = fetch(fmt.Sprintf("git clone https://dev.getsol.us/source/%s.git", repo[2]))
-  }
+	}
 
 	// Print output to terminal:
 	fmt.Printf("%s%s%s", one, two, three)

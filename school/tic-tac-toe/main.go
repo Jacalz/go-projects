@@ -155,19 +155,19 @@ func InitGUI() {
 				}
 			}
 
-		// Clean up after our game finishes and do it on an other goroutine to speed it up.
-		go func() {
-			// We are not in a game anymore.
-			inGame = false
+			// Clean up after our game finishes and do it on an other goroutine to speed it up.
+			go func() {
+				// We are not in a game anymore.
+				inGame = false
 
-			// As a clean up we make sure to clear all markers for each player and for all pressed buttons.
-			player1 = [9]bool{false, false, false, false, false, false, false, false, false}
-			player2 = [9]bool{false, false, false, false, false, false, false, false, false}
-			pressed = [9]bool{false, false, false, false, false, false, false, false, false}
-		}()
+				// As a clean up we make sure to clear all markers for each player and for all pressed buttons.
+				player1 = [9]bool{false, false, false, false, false, false, false, false, false}
+				player2 = [9]bool{false, false, false, false, false, false, false, false, false}
+				pressed = [9]bool{false, false, false, false, false, false, false, false, false}
+			}()
 
-		// Show our winning or tie message to the user.
-		message.Show()
+			// Show our winning or tie message to the user.
+			message.Show()
 		}()
 
 	})

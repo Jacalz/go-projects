@@ -7,23 +7,23 @@ import (
 )
 
 func complexRoots(B, root float64) (X1I, X2I complex128) {
-  X1I = complex(-(B / 2), +math.Sqrt(-root))
-  X2I = complex(-(B / 2), -math.Sqrt(-root))
+	X1I = complex(-(B / 2), +math.Sqrt(-root))
+	X2I = complex(-(B / 2), -math.Sqrt(-root))
 
-  return X1I, X2I
+	return X1I, X2I
 }
 
 func realRoots(B, root float64) (X1, X2 float64) {
-  X1 = -(B / 2) + math.Sqrt(root)
-  X2 = -(B / 2) - math.Sqrt(root)
+	X1 = -(B / 2) + math.Sqrt(root)
+	X2 = -(B / 2) - math.Sqrt(root)
 
-  return X1, X2
+	return X1, X2
 }
 
 func rootPart(A, B, C float64) (root float64) {
-	root = math.Pow(B / 2, 2) - C
+	root = math.Pow(B/2, 2) - C
 
-  return root
+	return root
 }
 
 func getInput() (A, B, C float64) {
@@ -39,38 +39,38 @@ func getInput() (A, B, C float64) {
 }
 
 func handleInputValues(A, B, C float64) (AO, BO, CO float64) {
-  if A != 1 {
-    AO = 1
-    BO = B / A
-    CO = C / A
-  } else if A == 1 {
-    AO = A
-    BO = B
-    CO = C
-  } else if A == 0 {
-    log.Fatalln("Not a quadratic equation")
-  }
+	if A != 1 {
+		AO = 1
+		BO = B / A
+		CO = C / A
+	} else if A == 1 {
+		AO = A
+		BO = B
+		CO = C
+	} else if A == 0 {
+		log.Fatalln("Not a quadratic equation")
+	}
 
-  return AO, BO, CO
+	return AO, BO, CO
 }
 
 func main() {
 
 	A, B, C := handleInputValues(getInput())
-  root := rootPart(A, B, C)
+	root := rootPart(A, B, C)
 
-  fmt.Println("\nSolutions for equation:")
+	fmt.Println("\nSolutions for equation:")
 
-  fmt.Println("Debug:", B, root)
-  
-  if root < 0 {
-    X1I, X2I := complexRoots(B, root)
+	fmt.Println("Debug:", B, root)
+
+	if root < 0 {
+		X1I, X2I := complexRoots(B, root)
 		fmt.Printf("X1: %.3f\n", X1I)
 		fmt.Printf("X2: %.3f\n", X2I)
-  } else {
-    X1, X2 := realRoots(B, root)
+	} else {
+		X1, X2 := realRoots(B, root)
 		fmt.Printf("X1: %.3f\n", X1)
 		fmt.Printf("X2: %.3f\n", X2)
-  }
+	}
 
 }

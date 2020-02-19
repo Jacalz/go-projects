@@ -18,7 +18,7 @@ func threeRoots(A, B, G, H float64) (X1, X2, X3 float64) {
 	P := (B / (3 * A)) * -1
 
 	// Final calculations for X1, X2 and X3
-	X1 = (2*J) * math.Cos(K/3) - (B / (3 * A))
+	X1 = (2*J)*math.Cos(K/3) - (B / (3 * A))
 	X2 = L*(M+N) + P
 	X3 = L*(M-N) + P
 
