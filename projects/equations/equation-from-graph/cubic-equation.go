@@ -101,49 +101,27 @@ func main() {
 
 // This is an utter abommination. Don't judge me please...
 func prettyPrint(A, B, C, D float64) {
-	if math.Round(A) == 1 {
-		if B < 0 && C >= 0 && D >= 0 {
-			fmt.Printf("y = x³ - %.0fx² + %.0fx + %.0f\n", -B, C, D)
-		} else if B > 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = x³ + %.0fx² - %.0fx + %.0f\n", B, -C, D)
-		} else if B > 0 && C >= 0 && D <= 0 {
-			fmt.Printf("y = x³ + %.0fx² + %.0fx - %.0f\n", B, C, -D)
-		} else if B < 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = x³ - %.0fx² - %.0fx + %.0f\n", -B, -C, D)
-		} else if B > 0 && C <= 0 && D <= 0 {
-			fmt.Printf("y = x³ + %.0fx² - %.0fx - %.0f\n", B, -C, -D)
-		} else if B < 0 && C >= 0 && D <= 0 {
-			fmt.Printf("y = x³ - %.0fx² + %.0fx - %.0f\n", -B, C, -D)
-		} else if B > 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = x³ + %.0fx² - %.0fx + %.0f\n", B, -C, D)
-		} else if B < 0 && C <= 0 && D <= 0 {
-			fmt.Printf("y = x³ - %.0fx² + %.0fx - %.0f\n", -B, -C, -D)
-		} else {
-			fmt.Printf("y = x³ + %.0fx² + %.0fx + %.0f\n", B, C, D)
-		}
+	// Set the signs default to plus.
+	sign := [3]rune{'+', '+', '+'}
 
+	// Switch signs to minus if values a lower than zero.
+	if B < 0 {
+		sign[0] = '-'
+		B = -B
+	}
+	if C < 0 {
+		sign[1] = '-'
+		C = -C
+	}
+	if D < 0 {
+		sign[2] = '-'
+		D = -D
+	}
+
+	// Do not print A if it is equal to one.
+	if math.Round(A) == 1 {
+		fmt.Printf("y = x³ %c %.0fx² %c %.0fx %c %.0f\n", sign[0], B, sign[1], C, sign[2], D)
 	} else {
-		if B < 0 && C >= 0 && D >= 0 {
-			fmt.Printf("y = %.0fx³ - %.0fx² + %.0fx + %.0f\n", A, -B, C, D)
-		} else if B > 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = %.0fx³ + %.0fx² - %.0fx + %.0f\n", A, B, -C, D)
-		} else if B > 0 && C >= 0 && D <= 0 {
-			fmt.Printf("y = %.0fx³ + %.0fx² + %.0fx - %.0f\n", A, B, C, -D)
-		} else if B < 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = %.0fx³ - %.0fx² - %.0fx + %.0f\n", A, -B, -C, D)
-		} else if B > 0 && C <= 0 && D <= 0 {
-			fmt.Printf("y = %.0fx³ + %.0fx² - %.0fx - %.0f\n", A, B, -C, -D)
-		} else if B < 0 && C >= 0 && D <= 0 {
-			fmt.Printf("y = %.0fx³ - %.0fx² + %.0fx - %.0f\n", A, -B, C, -D)
-		} else if B > 0 && C <= 0 && D >= 0 {
-			fmt.Printf("y = %.0fx³ + %.0fx² - %.0fx + %.0f\n", A, B, +C, D)
-		} else if B < 0 && C <= 0 && D <= 0 {
-			fmt.Printf("y = %.0fx³ - %.0fx² + %.0fx - %.0f\n", A, -B, -C, -D)
-		} else {
-			fmt.Printf("y = %.0fx³ + %.0fx² + %.0fx + %.0f\n", A, B, C, D)
-		}
+		fmt.Printf("y = %.0fx³ %c %.0fx² %c %.0fx %c %.0f\n", A, sign[0], B, sign[1], C, sign[2], D)
 	}
 }
-
-// Todo:
-// - Print in the end doesnt use abommination correctly. Example: 2 - 2, -1 -2 (1, -12)...
