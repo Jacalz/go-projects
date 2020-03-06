@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-// StraightInput gets all the needed values needed to calculate a straight line equation
+// Input gets all the needed values needed to calculate a straight line equation
 func Input() (Point1X, Point1Y, Point2X, Point2Y float64) {
 	fmt.Println("Enter two points from straight line graph to get the equation for it!")
 
@@ -24,14 +24,14 @@ func Input() (Point1X, Point1Y, Point2X, Point2Y float64) {
 	return Point1X, Point1Y, Point2X, Point2Y
 }
 
-// StraightEquation calculates the gradient and intercept points for the equation
+// Equation calculates the gradient and intercept points for the equation
 func Equation(Point1X, Point1Y, Point2X, Point2Y float64) (Gradient, Intercept float64) {
 	Gradient = (Point2Y - Point1Y) / (Point2X - Point1X)
 	Intercept = Point1Y - (Gradient * Point1X)
 	return Gradient, Intercept
 }
 
-// StraightPrint prints the equation for the graph, from gradient and intercept value from StraightEquation
+// Print prints the equation for the graph, from gradient and intercept value from StraightEquation
 func Print(Gradient, Intercept float64) {
 	// Get it to not print a + before a negative number
 	fmt.Println("\nYou equation is:")
