@@ -7,17 +7,20 @@ import (
 	"os"
 )
 
+// Materials contains the top part of material data structs.
 type Materials struct {
 	XMLName   xml.Name   `xml:"materials"`
 	Materials []Material `xml:"material"`
 }
 
+// Material contains name and properties of the material.
 type Material struct {
 	XMLName    xml.Name   `xml:"material"`
 	Name       string     `xml:"name"`
 	Properties Properties `xml:"properties"`
 }
 
+// Properties holds all the properties of the Material type.
 type Properties struct {
 	XMLName         xml.Name `xml:"properties"`
 	Elasticity      float64  `xml:"elasticity"`
