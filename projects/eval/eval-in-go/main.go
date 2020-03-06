@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// Eval evaluates an expression, more or less.
 func Eval(exp ast.Expr) int {
 	switch exp := exp.(type) {
 	case *ast.BinaryExpr:
