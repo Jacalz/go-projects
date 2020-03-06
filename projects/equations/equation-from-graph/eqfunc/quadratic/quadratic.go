@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-// QuadraticInput will get all the values needed to calculate the quadratic equation
+// Input will get all the values needed to calculate the quadratic equation
 func Input() (Xvalue, Yvalue, NullPoint1, NullPoint2 float64) {
 	// Enter the amount of roots in the graph
 	var NullPoints int
@@ -59,7 +59,7 @@ func oneRoot() (NullPoint float64) {
 	return NullPoint
 }
 
-// QuadraticEquation calculates the A, B and C value for the equation
+// Equation calculates the A, B and C value for the equation
 func Equation(Xvalue, Yvalue, NullPoint1, NullPoint2 float64) (A, B, C float64) {
 	A = Yvalue / ((Xvalue - NullPoint1) * (Xvalue - NullPoint2))
 	B = A * (-NullPoint1 + -NullPoint2)
@@ -67,7 +67,7 @@ func Equation(Xvalue, Yvalue, NullPoint1, NullPoint2 float64) (A, B, C float64) 
 	return A, B, C
 }
 
-// QuadraticPrint prints the full equation for the graph, from A, B and C values from QuadraticEquation
+// Print prints the full equation for the graph, from A, B and C values from QuadraticEquation
 func Print(A, B, C float64) {
 	// Make sure that it doesn't print a plus sign before a negative number
 	fmt.Println("\nYou equation is:")
