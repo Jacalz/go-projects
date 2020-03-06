@@ -169,6 +169,7 @@ func (c *Column) PrintBuckling() {
 
 }
 
+// PrintRequiredImin prints the required Imin value.
 func (c *Column) PrintRequiredImin(safety float64) {
 	required := c.RequiredImin(safety)
 
