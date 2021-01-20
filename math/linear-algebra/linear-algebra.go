@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Vec3 is a three dimensional vector
 type Vec3 struct {
@@ -19,6 +22,11 @@ func VectorFromPoints(a, b *Point3) *Vec3 {
 		y: b.y - a.y,
 		z: b.z - a.z,
 	}
+}
+
+// Abs returns the absolute value of the vector a
+func Abs(a *Vec3) float64 {
+	return math.Sqrt(float64(a.x*a.x) + float64(a.y*a.y) + float64(a.z*a.z))
 }
 
 // Product returns the product of the vectors a and b.
@@ -50,6 +58,8 @@ func main() {
 	u := &Vec3{x: 3, y: 0, z: 1}
 	v := &Vec3{x: 2, y: -1, z: 3}
 	w := &Vec3{x: 1, y: 1, z: 1}
+
+	fmt.Println("|U|:", Abs(u))
 
 	fmt.Println("UxV:", CrossProduct(u, v))
 	fmt.Println("VxU:", CrossProduct(v, u))
