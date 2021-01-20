@@ -7,6 +7,20 @@ type Vec3 struct {
 	x, y, z int
 }
 
+// Point3 is a point within a three diemsional space
+type Point3 struct {
+	x, y, z int
+}
+
+// VectorFromPoints returns a vector from point a to point b
+func VectorFromPoints(a, b *Point3) *Vec3 {
+	return &Vec3{
+		x: b.x - a.x,
+		y: b.y - a.y,
+		z: b.z - a.z,
+	}
+}
+
 // Product returns the product of the vectors a and b.
 func Product(a, b *Vec3) int {
 	return a.x*b.x + a.y*b.y + a.z*b.z
@@ -44,4 +58,15 @@ func main() {
 	fmt.Println("VxU are parallell:", Parallell(v, u))
 
 	fmt.Println("V, U and W are in the same plane:", InSamePlane(u, v, w))
+
+	p1 := &Point3{x: 1, y: 1, z: 1}
+	p2 := &Point3{x: 0, y: 2, z: 1}
+	p3 := &Point3{x: -1, y: 0, z: 1}
+	p4 := &Point3{x: 2, y: 2, z: -3}
+
+	p1p2 := VectorFromPoints(p1, p2)
+	p1p3 := VectorFromPoints(p1, p3)
+	p1p4 := VectorFromPoints(p1, p4)
+
+	fmt.Println("p1, p2, p3 and p4 are in the same plane:", InSamePlane(p1p2, p1p3, p1p4))
 }
