@@ -26,7 +26,7 @@ func VectorFromPoints(a, b *Point3) *Vec3 {
 
 // Abs returns the absolute value of the vector a
 func Abs(a *Vec3) float64 {
-	return math.Sqrt(float64(a.x*a.x) + float64(a.y*a.y) + float64(a.z*a.z))
+	return math.Sqrt(float64(a.x*a.x + a.y*a.y + a.z*a.z))
 }
 
 // Product returns the product of the vectors a and b.
