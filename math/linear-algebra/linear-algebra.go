@@ -5,53 +5,82 @@ import (
 	"math"
 )
 
-// Vec3 is a three dimensional vector
+// Vec3Zero is a zero vector in the room.
+var Vec3Zero = &Vec3{0, 0, 0}
+
+// Vec3 is a three dimensional vector in the room.
 type Vec3 struct {
-	x, y, z int
+	x, y, z float64
 }
 
-// Point3 is a point within a three diemsional space
+// Point3 is a point within a three dimensional room.
 type Point3 struct {
-	x, y, z int
+	x, y, z float64
 }
 
-// VectorFromPoints returns a vector from point a to point b
-func VectorFromPoints(a, b *Point3) *Vec3 {
+// Vec3BetweenPoints returns a vector from point a to point b.
+func Vec3BetweenPoints(a, b *Point3) *Vec3 {
+	return &Vec3{b.x - a.x, b.y - a.y, b.z - a.z}
+}
+
+// Add adds the two vectors u and v together.
+func Add(u, v *Vec3) *Vec3 {
+	return &Vec3{u.x + v.x, u.y + v.y, u.z + v.z}
+}
+
+// Sub subtracts the vector v from u.
+func Sub(u, v *Vec3) *Vec3 {
+	return &Vec3{u.x - v.x, u.y - v.y, u.z - v.z}
+}
+
+// Mult multiplies the vector u with the scalar s.
+func Mult(u *Vec3, s float64) *Vec3 {
+	return &Vec3{u.x * s, u.y * s, u.z * s}
+}
+
+// Abs returns the absolute value (length) of the vector u.
+func Abs(u *Vec3) float64 {
+	return math.Sqrt(u.x*u.x + u.y*u.y + u.z*u.z)
+}
+
+// ScalarProduct returns the scalar product of the vectors u and v.
+func ScalarProduct(u, v *Vec3) float64 {
+	return u.x*v.x + u.y*v.y + u.z*v.z
+}
+
+// CrossProduct returns the cross product of the vectors u and v.
+func CrossProduct(u, v *Vec3) *Vec3 {
 	return &Vec3{
-		x: b.x - a.x,
-		y: b.y - a.y,
-		z: b.z - a.z,
+		x: u.y*v.z - u.z*v.y,
+		y: u.z*v.x - v.z*u.x,
+		z: u.x*v.y - u.y*v.x,
 	}
 }
 
-// Abs returns the absolute value of the vector a
-func Abs(a *Vec3) float64 {
-	return math.Sqrt(float64(a.x*a.x + a.y*a.y + a.z*a.z))
+// UnitVector returns a unit vector (length 1) from u.
+func UnitVector(u *Vec3) *Vec3 {
+	return Mult(u, 1/Abs(u))
 }
 
-// Product returns the product of the vectors a and b.
-func Product(a, b *Vec3) int {
-	return a.x*b.x + a.y*b.y + a.z*b.z
+// OrthoProject projects the vector u orthogonally on the vector v.
+func OrthoProject(u, v *Vec3) *Vec3 {
+	e := UnitVector(v)
+	return Mult(e, ScalarProduct(u, e))
 }
 
-// CrossProduct returns the cross product of the vectors a and b.
-func CrossProduct(a, b *Vec3) *Vec3 {
-	return &Vec3{
-		x: a.y*b.z - a.z*b.y,
-		y: a.z*b.x - b.z*a.x,
-		z: a.x*b.y - a.y*b.x,
-	}
-}
-
-// Parallell states if the vectors a and b are parallell.
+// Parallell returns true if the vectors a and b are parallell.
 func Parallell(a, b *Vec3) bool {
-	v := CrossProduct(a, b)
-	return v.x == 0 && v.y == 0 && v.z == 0
+	return CrossProduct(a, b) == Vec3Zero
 }
 
-// InSamePlane states if the vectors a, b and c are in the same plane.
+// Orthogonal returns true if the vectors a and b are orthogonal.
+func Orthogonal(a, b *Vec3) bool {
+	return ScalarProduct(a, b) == 0
+}
+
+// InSamePlane returns true if the vectors a, b and c are in the same plane.
 func InSamePlane(a, b, c *Vec3) bool {
-	return Product(CrossProduct(a, b), c) == 0
+	return ScalarProduct(CrossProduct(a, b), c) == 0
 }
 
 func main() {
@@ -74,9 +103,14 @@ func main() {
 	p3 := &Point3{x: -1, y: 0, z: 1}
 	p4 := &Point3{x: 2, y: 2, z: -3}
 
-	p1p2 := VectorFromPoints(p1, p2)
-	p1p3 := VectorFromPoints(p1, p3)
-	p1p4 := VectorFromPoints(p1, p4)
+	p1p2 := Vec3BetweenPoints(p1, p2)
+	p1p3 := Vec3BetweenPoints(p1, p3)
+	p1p4 := Vec3BetweenPoints(p1, p4)
 
 	fmt.Println("p1, p2, p3 and p4 are in the same plane:", InSamePlane(p1p2, p1p3, p1p4))
+
+	u2 := &Vec3{x: 3, y: 0, z: -1}
+	v2 := &Vec3{x: 1, y: 2, z: 2}
+
+	fmt.Println("Orthogonal projection of u2 on v2:", OrthoProject(u2, v2))
 }
