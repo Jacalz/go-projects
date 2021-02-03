@@ -68,19 +68,24 @@ func OrthoProject(u, v *Vec3) *Vec3 {
 	return Mult(e, ScalarProduct(u, e))
 }
 
-// Parallell returns true if the vectors a and b are parallell.
-func Parallell(a, b *Vec3) bool {
-	return CrossProduct(a, b) == Vec3Zero
+// Parallel returns true if the vectors u and v are parallell.
+func Parallel(u, v *Vec3) bool {
+	return CrossProduct(u, v) == Vec3Zero
 }
 
-// Orthogonal returns true if the vectors a and b are orthogonal.
-func Orthogonal(a, b *Vec3) bool {
-	return ScalarProduct(a, b) == 0
+// Orthogonal returns true if the vectors u and v are orthogonal.
+func Orthogonal(u, v *Vec3) bool {
+	return ScalarProduct(u, v) == 0
 }
 
-// InSamePlane returns true if the vectors a, b and c are in the same plane.
-func InSamePlane(a, b, c *Vec3) bool {
-	return ScalarProduct(CrossProduct(a, b), c) == 0
+// InSamePlane returns true if the vectors u, v and w are in the same plane.
+func InSamePlane(u, v, w *Vec3) bool {
+	return ScalarProduct(CrossProduct(u, v), w) == 0
+}
+
+// AngleBetween returns the angle, in radians, between the vetors u and v.
+func AngleBetween(u, v *Vec3) float64 {
+	return math.Acos(ScalarProduct(u, v) / (Abs(u) * Abs(v)))
 }
 
 func main() {
@@ -93,8 +98,8 @@ func main() {
 	fmt.Println("UxV:", CrossProduct(u, v))
 	fmt.Println("VxU:", CrossProduct(v, u))
 
-	fmt.Println("UxV are parallell:", Parallell(u, v))
-	fmt.Println("VxU are parallell:", Parallell(v, u))
+	fmt.Println("UxV are parallell:", Parallel(u, v))
+	fmt.Println("VxU are parallell:", Parallel(v, u))
 
 	fmt.Println("V, U and W are in the same plane:", InSamePlane(u, v, w))
 
