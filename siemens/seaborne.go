@@ -2,12 +2,15 @@ package main
 
 import (
 	"regexp"
+	"strings"
+	"time"
 
-	"fyne.io/fyne"
-	"fyne.io/fyne/app"
-	"fyne.io/fyne/dialog"
-	"fyne.io/fyne/theme"
-	"fyne.io/fyne/widget"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 )
 
 func main() {
@@ -15,9 +18,10 @@ func main() {
 	w := a.NewWindow("SEABorne")
 
 	input := widget.NewEntry()
-	input.SetPlaceHolder("Enter regex pattern to look for")
+	input.SetPlaceHolder("Enter regex pattern...")
 
-	button := widget.NewButtonWithIcon("Run format", theme.ContentCopyIcon(), func() {
+	button := &widget.Button{Text: "Find matches", Icon: theme.ContentCopyIcon()}
+	button.OnTapped = func() {
 		pattern, err := regexp.Compile(input.Text)
 		if err != nil {
 			dialog.ShowError(err, w)
@@ -27,25 +31,30 @@ func main() {
 		clipboard := fyne.CurrentApp().Driver().AllWindows()[0].Clipboard()
 
 		result := pattern.FindAllString(clipboard.Content(), -1)
-		if len(result) == 0 {
+		items := len(result)
+		if items == 0 {
 			dialog.ShowInformation("No results", "Couldn't find anything with that expression.", w)
 			return
 		}
 
-		formated := ""
-		for i, v := range result {
-			if i != len(result)-1 {
-				formated += v + "\n"
-			} else {
-				formated += v
-			}
+		var formated strings.Builder
+		formated.Grow(items)
+		for i := 0; i < items-1; i++ {
+			formated.WriteString(result[i])
+			formated.WriteString("\n")
 		}
 
-		clipboard.SetContent(formated)
-	})
+		formated.WriteString(result[items-1])
+		clipboard.SetContent(formated.String())
+
+		go func() {
+			button.SetIcon(theme.ConfirmIcon())
+			time.Sleep(200 * time.Millisecond)
+			button.SetIcon(theme.ContentCopyIcon())
+		}()
+	}
 
 	w.Resize(fyne.NewSize(400, 200))
-
-	w.SetContent(widget.NewVBox(input, button))
+	w.SetContent(container.NewVBox(input, button))
 	w.ShowAndRun()
 }
