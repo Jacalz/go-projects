@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -20,6 +21,7 @@ func main() {
 	input := widget.NewEntry()
 	input.SetPlaceHolder("Enter regex pattern...")
 
+	var formated strings.Builder
 	button := &widget.Button{Text: "Find matches", Icon: theme.ContentCopyIcon()}
 	button.OnTapped = func() {
 		pattern, err := regexp.Compile(input.Text)
@@ -37,7 +39,6 @@ func main() {
 			return
 		}
 
-		var formated strings.Builder
 		formated.Grow(items)
 		for i := 0; i < items-1; i++ {
 			formated.WriteString(result[i])
@@ -46,6 +47,7 @@ func main() {
 
 		formated.WriteString(result[items-1])
 		clipboard.SetContent(formated.String())
+		formated.Reset()
 
 		go func() {
 			button.SetIcon(theme.ConfirmIcon())
@@ -54,7 +56,10 @@ func main() {
 		}()
 	}
 
+	link, _ := url.Parse("https://cheatography.com/davechild/cheat-sheets/regular-expressions/")
+	cheat := &widget.Hyperlink{Text: "Regex Cheat Sheet", URL: link}
+
 	w.Resize(fyne.NewSize(400, 200))
-	w.SetContent(container.NewVBox(input, button))
+	w.SetContent(container.NewVBox(input, button, cheat))
 	w.ShowAndRun()
 }
