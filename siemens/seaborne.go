@@ -67,7 +67,7 @@ func main() {
 		result := expression.FindAllString(clipboard.Content(), -1)
 		items := len(result)
 		if items == 0 {
-			dialog.ShowInformation("No results", "Couldn't find anything with that expression.", w)
+			dialog.ShowInformation("No matches found", "Could not find anything with that expression.", w)
 			return
 		}
 
@@ -100,7 +100,7 @@ func main() {
 	link, _ := url.Parse("https://cheatography.com/davechild/cheat-sheets/regular-expressions/")
 	cheat := &widget.Hyperlink{Text: "Regex Cheat Sheet", URL: link}
 
-	w.Resize(fyne.NewSize(400, 200))
+	w.Resize(fyne.NewSize(450, 250))
 	w.SetContent(container.NewVBox(input, button, word, info, cheat))
 	w.ShowAndRun()
 }
