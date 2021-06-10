@@ -40,6 +40,7 @@ func containsDuplicates(input []string) bool {
 
 func main() {
 	a := app.New()
+	a.SetIcon(resourceIconPng)
 	w := a.NewWindow("SEABorne")
 
 	input := &widget.Entry{PlaceHolder: "Enter regex pattern..."}
