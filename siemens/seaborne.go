@@ -3,6 +3,7 @@ package main
 import (
 	"net/url"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -14,17 +15,48 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+// wordBoundry is an extension for the regex word boundry.
+// Combined with, clean(), it allows us to match many more serial numbers.
+const wordBoundry = `(\b|\n)`
+
+// Clean trims any leading newlines (trailing are handled later).
+func clean(input string) string {
+	return strings.TrimPrefix(input, "\n")
+}
+
+func containsDuplicates(input []string) bool {
+	dup := make(map[string]bool)
+
+	for _, item := range input {
+		if _, ok := dup[item]; ok {
+			return true
+		} else {
+			dup[item] = true
+		}
+	}
+
+	return false
+}
+
 func main() {
 	a := app.New()
 	w := a.NewWindow("SEABorne")
 
-	input := widget.NewEntry()
-	input.SetPlaceHolder("Enter regex pattern...")
+	input := &widget.Entry{PlaceHolder: "Enter regex pattern..."}
+
+	word := &widget.Check{Text: "Match whole words only", Checked: true}
+
+	info := &widget.Label{Text: "Objects found: 0\nDuplicated items: no"}
 
 	var formated strings.Builder
 	button := &widget.Button{Text: "Find matches", Icon: theme.ContentCopyIcon()}
 	button.OnTapped = func() {
-		pattern, err := regexp.Compile(input.Text)
+		pattern := input.Text
+		if word.Checked {
+			pattern = wordBoundry + pattern + wordBoundry
+		}
+
+		expression, err := regexp.Compile(pattern)
 		if err != nil {
 			dialog.ShowError(err, w)
 			return
@@ -32,7 +64,7 @@ func main() {
 
 		clipboard := fyne.CurrentApp().Driver().AllWindows()[0].Clipboard()
 
-		result := pattern.FindAllString(clipboard.Content(), -1)
+		result := expression.FindAllString(clipboard.Content(), -1)
 		items := len(result)
 		if items == 0 {
 			dialog.ShowInformation("No results", "Couldn't find anything with that expression.", w)
@@ -41,11 +73,20 @@ func main() {
 
 		formated.Grow(items)
 		for i := 0; i < items-1; i++ {
-			formated.WriteString(result[i])
-			formated.WriteString("\n")
+			cleaned := clean(result[i])
+			formated.WriteString(cleaned)
+
+			if !strings.HasSuffix(cleaned, "\n") {
+				formated.WriteString("\n")
+			}
 		}
 
-		formated.WriteString(result[items-1])
+		info.Text = "Objects found: " + strconv.Itoa(items) + "\nDuplicated items: no"
+		if containsDuplicates(result) {
+			info.SetText(info.Text[:len(info.Text)-2] + "yes")
+		}
+
+		formated.WriteString(clean(result[items-1]))
 		clipboard.SetContent(formated.String())
 		formated.Reset()
 
@@ -60,6 +101,6 @@ func main() {
 	cheat := &widget.Hyperlink{Text: "Regex Cheat Sheet", URL: link}
 
 	w.Resize(fyne.NewSize(400, 200))
-	w.SetContent(container.NewVBox(input, button, cheat))
+	w.SetContent(container.NewVBox(input, button, word, info, cheat))
 	w.ShowAndRun()
 }
