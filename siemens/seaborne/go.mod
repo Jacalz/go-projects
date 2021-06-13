@@ -1,4 +1,4 @@
-module seabourne
+module seaborne
 
 go 1.16
 
