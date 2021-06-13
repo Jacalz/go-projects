@@ -78,10 +78,19 @@ func main() {
 		formated.Grow(items)
 		for i := 0; i < items-1; i++ {
 			cleaned := clean(result[i])
-			formated.WriteString(cleaned)
+
+			if _, err := formated.WriteString(cleaned); err != nil {
+				info.SetText(defaultInfo)
+				dialog.ShowError(err, w)
+				return
+			}
 
 			if !strings.HasSuffix(cleaned, "\n") {
-				formated.WriteString("\n")
+				if _, err := formated.WriteString("\n"); err != nil {
+					info.SetText(defaultInfo)
+					dialog.ShowError(err, w)
+					return
+				}
 			}
 		}
 
@@ -90,13 +99,18 @@ func main() {
 			info.SetText(info.Text[:len(info.Text)-2] + "yes")
 		}
 
-		formated.WriteString(clean(result[items-1]))
+		if _, err := formated.WriteString(clean(result[items-1])); err != nil {
+			info.SetText(defaultInfo)
+			dialog.ShowError(err, w)
+			return
+		}
+
 		clipboard.SetContent(formated.String())
 		formated.Reset()
 
 		go func() {
 			button.SetIcon(theme.ConfirmIcon())
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(350 * time.Millisecond)
 			button.SetIcon(theme.ContentCopyIcon())
 		}()
 	}
