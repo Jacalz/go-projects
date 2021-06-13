@@ -47,7 +47,8 @@ func main() {
 
 	word := &widget.Check{Text: "Match whole words only", Checked: true}
 
-	info := &widget.Label{Text: "Objects found: 0\nDuplicated items: no"}
+	const defaultInfo = "Objects found: 0\nDuplicated items: no"
+	info := &widget.Label{Text: defaultInfo}
 
 	var formated strings.Builder
 	button := &widget.Button{Text: "Find matches", Icon: theme.ContentCopyIcon()}
@@ -59,6 +60,7 @@ func main() {
 
 		expression, err := regexp.Compile(pattern)
 		if err != nil {
+			info.SetText(defaultInfo)
 			dialog.ShowError(err, w)
 			return
 		}
@@ -68,6 +70,7 @@ func main() {
 		result := expression.FindAllString(clipboard.Content(), -1)
 		items := len(result)
 		if items == 0 {
+			info.SetText(defaultInfo)
 			dialog.ShowInformation("No matches found", "Could not find anything with that expression.", w)
 			return
 		}
@@ -96,6 +99,10 @@ func main() {
 			time.Sleep(200 * time.Millisecond)
 			button.SetIcon(theme.ContentCopyIcon())
 		}()
+	}
+
+	input.OnSubmitted = func(_ string) {
+		button.OnTapped()
 	}
 
 	link, _ := url.Parse("https://cheatography.com/davechild/cheat-sheets/regular-expressions/")
